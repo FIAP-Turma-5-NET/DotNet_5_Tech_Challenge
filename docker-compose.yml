@@ -18,6 +18,8 @@ services:
       MYSQL_ROOT_PASSWORD: 202406
     ports:
       - "3360:3306"
+    volumes:
+      - ./FIAP_Contato.Data/Scripts:/docker-entrypoint-initdb.d
     restart: always
     networks:
       - default

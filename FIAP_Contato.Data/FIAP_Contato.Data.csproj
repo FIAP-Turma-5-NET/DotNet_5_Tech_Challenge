@@ -15,8 +15,4 @@
     <ProjectReference Include="..\FIAP_Contato.Domain\FIAP_Contato.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
-
 </Project>
