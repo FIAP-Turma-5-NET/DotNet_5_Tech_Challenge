@@ -4,6 +4,7 @@ using FIAP_Contato.CrossCutting.Logger;
 
 using Microsoft.OpenApi.Models;
 using MySqlConnector;
+using Prometheus;
 using System.Data;
 using System.Reflection;
 
@@ -43,6 +44,14 @@ builder.Logging.AddProvider(
         ));
 
 var app = builder.Build();
+
+app.UseMetricServer();
+
+//Metricas Prometheus
+app.UseHttpMetrics(options =>
+{
+    options.AddCustomLabel("host", context => context.Request.Host.Host);
+});
 
 if (app.Environment.IsDevelopment())
 {
