@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS Contato (
 );
 
 INSERT INTO Contato (Nome, DDD, Telefone, Email)
-VALUES ('Fulano Fiap de Souza', '11', '91234-5678', 'fulanofifi@email.com');
+VALUES ('Fulano Fiap de Souza', '11', '912345678', 'fulanofifi@email.com');
