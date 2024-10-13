@@ -57,7 +57,7 @@ Password: 202406
 
 ## Acessar API, Prometheus e Grafana
 
-👉 No browser acesse a API pela a url: https://localhost:7109/swagger/index.html
+👉 No browser acesse a API pela a url: http://localhost:7109/swagger/index.html
 
 👉 No browser acesse a Prometheus pela a url: http://localhost:9090/
 
