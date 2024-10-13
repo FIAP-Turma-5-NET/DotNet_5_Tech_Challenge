@@ -1,6 +1,6 @@
 # FIAP_Contato
 
-<h1  align="center">Tech Challenge - Fase 1</h1>
+<h1  align="center">Turma - 5  .NET - Tech Challenge </h1>
 
 <h3  align="center">Contato</h3>
 
@@ -8,44 +8,59 @@
 
 <!--ts-->
 
--  [Imagens do docker](#imagens-docker)
+- [Projeto no Docker (Windows)](#projeto-no-docker-windows)
 
--  [Executar Projeto](#executar-projeto)
+- [Configurar DBeaver](#configurar-dbeaver)
+
+- [Acessar API, Prometheus e Grafana](#acessar-api-prometheus-e-grafana)
 
 <!--te-->
 
 ---
 
-# Imagens Docker
+# Projeto no Docker (Windows)
 
 ⚠️Abra :
 
-👉 Com o Docker desktop e o terminal aberto
+👉 Abra o Docker desktop e o terminal
 
-```bash
+- No terminar entre no caminho que está o projeto. Exemplo:
 
-# Digite o comando abaixo
-	docker run -d --name mysql-fiap-contato -e MYSQL_ROOT_PASSWORD=202406 -p 3360:3306 mysql:8.0.32
+```console
+  cd C:\Workspaces\FIAP\DotNet_5_Tech_Challenge
+```
 
+- Verifique se o arquivo docker-compose.yml está no diretório
+
+```console
+ ls
+```
+
+- Execute o docker-compose
+
+```console
+ docker-compose up -d
 ```
 
 ---
 
-## Executar Projeto
+## Configurar DBeaver
 
-👉 Na pasta do projeto {CaminhoDoSeuProjeto}\FIAP.Contato\FIAP_Contato.Data\Scripts\CriacaoBase.sql:
-```bash
-    1 - Copie o script
-    2 - Execute o script no DBeaver
-    3 - Execute o Visual Studio
+👉 No DBeaver acesso o banco Mysql opção url
 
 ```
-👉 No DBeaver acesso o banco Mysql opção url
-	
- Url: jdbc:mysql://host.docker.internal:3360/mysql?allowPublicKeyRetrieval=true&useSSL=false
- Username: root
- Password: 202406 
+Url: jdbc:mysql://host.docker.internal:3360/mysql?allowPublicKeyRetrieval=true&useSSL=false
 
-👉 No browser acesse a API pela a url: https://localhost:7109/swagger/index.html
+Username: root
+Password: 202406
+```
+
+## Acessar API, Prometheus e Grafana
+
+👉 No browser acesse a API pela a url: http://localhost:7109/swagger/index.html
+
+👉 No browser acesse a Prometheus pela a url: http://localhost:9090/
+
+👉 No browser acesse a Grafana pela a url: http://localhost:3000/
 
 ---
