@@ -39,7 +39,10 @@ namespace FIAP_Contato.Test.Integration
             
             _contatoDomainService = new ContatoDomainService(_contatoRepository);
         }
-
+        /// <summary>
+        /// Deve cadastradar contato
+        /// </summary>
+        /// <returns>Contato cadastrado</returns>
         [Fact]
         [Trait("Categoria", "Integration")]
         public async Task CadastrarContato_DeveCadastrarComSucesso()
