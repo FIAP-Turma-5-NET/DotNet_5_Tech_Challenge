@@ -15,7 +15,7 @@ namespace FIAP_Contato.Producer.Producers
         {
             _producerService = producerService;
            
-            _queueName = configuration["MassTransit:Filas:ContatoFila"] ?? throw new ArgumentNullException("Nome da fila de contato não configurado.");
+            _queueName = configuration["MassTransit:Filas:ContatoFila"] ?? String.Empty;
         }
 
         public async Task EnviarContatoAsync(ContatoMensagem mensagem)
