@@ -8,4 +8,6 @@ public interface IContatoDomainService
     Task<string> AtualizarContato(Contato request);
     Task<IEnumerable<Contato>> ObterTodosContatos(string? ddd);
     Task<string> DeletarContato(int id);
+    Task<bool> VerificarContatoExistente(Contato contato);
+    void TratarContato(Contato contato);
 }

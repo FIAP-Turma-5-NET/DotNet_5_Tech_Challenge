@@ -1,6 +1,4 @@
 ﻿using Dapper;
-using Dapper.Contrib.Extensions;
-
 using FIAP_Contato.Data.Context;
 using FIAP_Contato.Domain.Entity;
 using FIAP_Contato.Domain.Interface.Repository;

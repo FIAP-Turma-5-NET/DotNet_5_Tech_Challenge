@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-WorkerContato-d5a72a9a-03c6-4d3d-bb5b-c251d7d52b0b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FIAP_Contato.CrossCutting\FIAP_Contato.CrossCutting.csproj" />
+    <ProjectReference Include="..\FIAP_Contato.Data\FIAP_Contato.Data.csproj" />
+    <ProjectReference Include="..\FIAP_Contato.Domain\FIAP_Contato.Domain.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+</Project>

@@ -2,6 +2,8 @@ using FIAP_Contato.API.Middleware;
 using FIAP_Contato.CrossCutting;
 using FIAP_Contato.CrossCutting.Logger;
 
+using MassTransit;
+
 using Microsoft.OpenApi.Models;
 using MySqlConnector;
 using Prometheus;
@@ -30,11 +32,30 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
+var servidor = configuration["MassTransit:Servidor"] ?? string.Empty;
+var usuario = configuration["MassTransit:Usuario"] ?? string.Empty;
+var senha = configuration["MassTransit:Senha"] ?? string.Empty;
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(servidor, "/", h =>
+        {
+            h.Username(usuario);
+            h.Password(senha);
+        });
+
+        cfg.ConfigureEndpoints(context);
+    });
+});
+
 //Configuração para buscar a connection
 var connectionString = configuration.GetValue<string>("ConnectionString");
 builder.Services.AddScoped<IDbConnection>((connection) => new MySqlConnection(connectionString));
 
 // Configuration IoC
+builder.Services.AddRegisterCommonServices();
 builder.Services.AddRegisterServices();
 
 builder.Logging.ClearProviders();
