@@ -22,14 +22,6 @@ public class ContatoApplicationService : IContatoApplicationService
         _mapper = mapper;
         _contatoProducer = contatoProducer;
     }
-    
-    public async Task<string> AtualizarContato(int id, ContatoModel request)
-    {
-        var req = _mapper.Map<Contato>(request);
-        req.Id = id;
-
-        return await _contatoDomainService.AtualizarContato(req);
-    }
 
     public async Task<string> CadastrarContato(ContatoModel request)
     {
@@ -49,6 +41,16 @@ public class ContatoApplicationService : IContatoApplicationService
 
         return "Contato cadastrado com sucesso!";
     }
+
+    public async Task<string> AtualizarContato(int id, ContatoModel request)
+    {
+        var req = _mapper.Map<Contato>(request);
+        req.Id = id;
+
+        return await _contatoDomainService.AtualizarContato(req);
+    }
+
+   
 
     public async Task<string> DeletarContato(int id)
     {

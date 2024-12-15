@@ -8,13 +8,13 @@ using Xunit;
 
 namespace FIAP_Contato.Test.Integration
 {
-    public class ContextFixture : IAsyncLifetime
+    public class DatabaseFixture : IAsyncLifetime
     {
         private readonly IContainer _mySqlContainer;
 
         public string ConnectionString { get; private set; }
 
-        public ContextFixture()
+        public DatabaseFixture()
         {
             _mySqlContainer = new ContainerBuilder()
                 .WithImage("mysql:8.0.32")

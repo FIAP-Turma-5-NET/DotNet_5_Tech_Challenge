@@ -8,14 +8,14 @@ using Xunit;
 
 namespace FIAP_Contato.Test.Integration
 {
-    [Collection(nameof(ContextCollection))]
+    [Collection(nameof(DatabaseCollection))]
     public class ContatoServiceObterTodosOsContatos : IAsyncLifetime
     {
-        private readonly ContextFixture _fixture;
+        private readonly DatabaseFixture _fixture;
         private readonly IContatoRepository _contatoRepository;
         private readonly ContatoDomainService _contatoDomainService;
 
-        public ContatoServiceObterTodosOsContatos(ContextFixture fixture)
+        public ContatoServiceObterTodosOsContatos(DatabaseFixture fixture)
         {
             _fixture = fixture;
             _contatoRepository = new ContatoRepository(new MySqlConnection(_fixture.ConnectionString));

@@ -8,20 +8,21 @@ using Xunit;
 
 namespace FIAP_Contato.Test.Integration
 {
-    [Collection(nameof(ContextCollection))]
+    [Collection(nameof(DatabaseCollection))]
     public class ContatoServiceDeletarContato : IAsyncLifetime
     {
-        private readonly ContextFixture _fixture;
+        private readonly DatabaseFixture _fixture;
+        private readonly IContatoRepository _contatoRepository;
+        private readonly ContatoDomainService _contatoDomainService;
 
-        public ContatoServiceDeletarContato(ContextFixture fixture)
+        public ContatoServiceDeletarContato(DatabaseFixture fixture)
         {
             _fixture = fixture;
             _contatoRepository = new ContatoRepository(new MySqlConnection(_fixture.ConnectionString));
             _contatoDomainService = new ContatoDomainService(_contatoRepository);
         }
 
-        private readonly IContatoRepository _contatoRepository;
-        private readonly ContatoDomainService _contatoDomainService;
+       
 
         [Fact]
         [Trait("Categoria", "Integration")]

@@ -7,15 +7,20 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="Docker.DotNet" Version="3.125.15" />
+    <PackageReference Include="MassTransit" Version="8.3.3" />
+    <PackageReference Include="MassTransit.Abstractions" Version="8.3.3" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.11" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
-    <PackageReference Include="MySqlConnector" Version="2.3.7" />
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
     <PackageReference Include="Testcontainers" Version="3.10.0" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
@@ -29,6 +34,7 @@
     <ProjectReference Include="..\FIAP_Contato.Application\FIAP_Contato.Application.csproj" />
     <ProjectReference Include="..\FIAP_Contato.Data\FIAP_Contato.Data.csproj" />
     <ProjectReference Include="..\FIAP_Contato.Domain\FIAP_Contato.Domain.csproj" />
+    <ProjectReference Include="..\WorkerContato\FIAP_Contato.Consumer.csproj" />
   </ItemGroup>  
 
 </Project>
