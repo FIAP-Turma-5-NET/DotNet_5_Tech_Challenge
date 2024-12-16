@@ -7,36 +7,35 @@ using Xunit;
 
 namespace FIAP_Contato.Test.Integration
 {
-    public class TesteContatoConsumer : IConsumer<ContatoMensagem>
+    public class ContatoConsumerEmMemoria : IConsumer<ContatoMensagem>
     {
        
         public static List<ContatoMensagem> MensagensRecebidas = new List<ContatoMensagem>();
 
-        public TesteContatoConsumer()
+        public ContatoConsumerEmMemoria()
         {
        
         }
 
         public async Task Consume(ConsumeContext<ContatoMensagem> context)
         {
-            // Registrar a mensagem recebida
-            MensagensRecebidas.Add(context.Message);     
-
-            // Simular processamento
+          
+            MensagensRecebidas.Add(context.Message);          
             await Task.CompletedTask;
         }
         
 
-        // Teste adicional para verificar detalhes da mensagem recebida
+        
         [Fact]
-        public async Task Deve_VerificarDetalhesDoContatoNaMensagemRecebida()
+        [Trait("Categoria", "Integration")]
+        public async Task VerificaDetalhesDoContatoNaMensagemRecebida()
         {
             // Arrange
             var services = new ServiceCollection();
 
             services.AddMassTransitTestHarness(cfg =>
             {
-                cfg.AddConsumer<TesteContatoConsumer>();
+                cfg.AddConsumer<ContatoConsumerEmMemoria>();
             });
 
             var provider = services.BuildServiceProvider();
@@ -58,12 +57,12 @@ namespace FIAP_Contato.Test.Integration
                 await harness.Bus.Publish(contatoMensagem);
 
                 // Assert
-                var consumerHarness = harness.GetConsumerHarness<TesteContatoConsumer>();
+                var consumerHarness = harness.GetConsumerHarness<ContatoConsumerEmMemoria>();
                 Assert.True(await consumerHarness.Consumed.Any<ContatoMensagem>(),
                     "Mensagem não foi consumida");
 
-                // Verificar detalhes específicos da mensagem
-                var mensagensRecebidas = TesteContatoConsumer.MensagensRecebidas;
+              
+                var mensagensRecebidas = ContatoConsumerEmMemoria.MensagensRecebidas;
                 Assert.Single(mensagensRecebidas);
 
                 var mensagemRecebida = mensagensRecebidas.First();

@@ -14,7 +14,7 @@ namespace FIAP_Contato.Test.Integration
         {
             _rabbitMqContainer = new ContainerBuilder()
                 .WithImage("rabbitmq:3-management")
-                .WithName("rabbitmq-fiap-contato-test")
+                .WithName($"rabbitmq-fiap-contato-test-{Guid.NewGuid()}")
                 .WithPortBinding(5672, true)
                 .WithEnvironment("RABBITMQ_DEFAULT_USER", "admin")
                 .WithEnvironment("RABBITMQ_DEFAULT_PASS", "password")

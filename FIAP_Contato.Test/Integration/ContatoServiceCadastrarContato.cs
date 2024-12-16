@@ -1,8 +1,10 @@
-﻿using FIAP_Contato.Data.Repository;
+﻿using FIAP_Contato.Application.Mapper;
+using FIAP_Contato.Consumer.Service;
+using FIAP_Contato.Data.Repository;
 using FIAP_Contato.Domain.Interface.Repository;
-using FIAP_Contato.Domain.Service;
-
 using MySql.Data.MySqlClient;
+using Shared.Model;
+
 using Xunit;
 
 namespace FIAP_Contato.Test.Integration
@@ -12,30 +14,38 @@ namespace FIAP_Contato.Test.Integration
     {
         private readonly DatabaseFixture _fixture;
         private readonly IContatoRepository _contatoRepository;
-        private readonly ContatoDomainService _contatoDomainService;
+        private readonly ConsumerService _consumerService;
+        private AutoMapper.IMapper _mapper;
 
         public ContatoServiceCadastrarContato(DatabaseFixture fixture)
         {
+            _mapper = MapperConfiguration.RegisterMapping();
             _fixture = fixture;
             _contatoRepository = new ContatoRepository(new MySqlConnection(_fixture.ConnectionString));
-            _contatoDomainService = new ContatoDomainService(_contatoRepository);
+            _consumerService = new ConsumerService(_contatoRepository, _mapper);
         }
 
         [Fact]
         [Trait("Categoria", "Integration")]
         public async Task CadastraContatoNoBancoComInformacoesCorretas()
         {
-            // Arrange
-            var contato = new ContatoDataBuilder().Build();    
+            // Arrange - prepara mensagem
+            var mensagem = new ContatoMensagem
+            {
+                Nome = "João Silva",
+                DDD = "11",
+                Telefone = "999999999",
+                Email = "joao.silva@teste.com"
+            };
 
             // Act
-            var resultado = await _contatoDomainService.CadastrarContato(contato);
-            var contatos = await _contatoDomainService.ObterTodosContatos();
+            var resultado = await _consumerService.CadastrarContato(mensagem);
+            var contatos = await _contatoRepository.ObterTodosAsync();           
 
             // Assert
             Assert.Equal("Cadastrado com sucesso!", resultado);  
-            Assert.Contains(contatos, c => c.Nome == contato.Nome);
-            Assert.Contains(contatos, c => c.Email == contato.Email);
+            Assert.Contains(contatos, c => c.Nome == mensagem.Nome);
+            Assert.Contains(contatos, c => c.Email == mensagem.Email);
         }
 
 

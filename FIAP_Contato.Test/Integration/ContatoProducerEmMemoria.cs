@@ -10,34 +10,27 @@ using Xunit;
 
 namespace FIAP_Contato.Test.Integration
 {
-    public class ContatoMensageriaInMemoryTests
+    public class ContatoProducerEmMemoria
     {
         [Fact]
         [Trait("Categoria", "Integration")]
-        public async Task Deve_EnviarEReceberMensagemNoRabbitMQ_EmMemoria()
+        public async Task EnviaRecebeMensagemEmMemoria()
         {
             // Arrange
-            var services = new ServiceCollection();
-
-            // Configurar MassTransit para usar InMemory
+            var services = new ServiceCollection();           
             services.AddMassTransitTestHarness(cfg =>
             {
-                // Configurar um consumidor de teste
-                cfg.AddConsumer<TesteContatoConsumer>();
+               
+                cfg.AddConsumer<ContatoConsumerEmMemoria>();
             });
-
-            // Construir o provider de serviços
-            var provider = services.BuildServiceProvider();
-
-            // Obter o Test Harness
-            var harness = provider.GetRequiredService<ITestHarness>();
-
-            // Iniciar o harness
+            
+            var provider = services.BuildServiceProvider();           
+            var harness = provider.GetRequiredService<ITestHarness>();          
             await harness.Start();
 
             try
             {
-                // Criar uma mensagem de contato de teste
+                
                 var contatoMensagem = new ContatoMensagem
                 {
                     Nome = "Teste Integração",
@@ -45,24 +38,19 @@ namespace FIAP_Contato.Test.Integration
                     Telefone = "11999999999",
                     TipoDeEvento = "Cadastrar"
                 };
-
-                // Publicar a mensagem
+                
                 await harness.Bus.Publish(contatoMensagem);
-
                 var result = await harness.Published.Any<ContatoMensagem>();
-
-                // Aguardar o processamento da mensagem
+                
                 Assert.True(result, "Mensagem não foi publicada");
-
-                // Verificar se o consumidor recebeu a mensagem
-                var consumerHarness = harness.GetConsumerHarness<TesteContatoConsumer>();
+                
+                var consumerHarness = harness.GetConsumerHarness<ContatoConsumerEmMemoria>();
                 var consumo = await consumerHarness.Consumed.Any<ContatoMensagem>();
 
                 Assert.True(consumo,"Mensagem não foi consumida");
             }
             finally
-            {
-                // Parar o harness
+            {                
                 await harness.Stop();
             }
         }

@@ -2,7 +2,6 @@
 
 namespace FIAP_Contato.Test.Integration;
 [CollectionDefinition(nameof(InfrastructureCollection))]
-public class InfrastructureCollection : ICollectionFixture<DatabaseFixture>, 
-    ICollectionFixture<RabbitMqFixture> 
+public class InfrastructureCollection : ICollectionFixture<InfrastructureFixture>   
 { 
 }

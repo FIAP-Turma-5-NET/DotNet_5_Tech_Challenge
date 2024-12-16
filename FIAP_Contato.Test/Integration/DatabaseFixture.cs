@@ -18,7 +18,7 @@ namespace FIAP_Contato.Test.Integration
         {
             _mySqlContainer = new ContainerBuilder()
                 .WithImage("mysql:8.0.32")
-                .WithName("mysql-fiap-contato-test")
+                .WithName($"mysql-fiap-contato-test-{Guid.NewGuid()}")
                 .WithPortBinding(3306, true)
                 .WithEnvironment("MYSQL_ROOT_PASSWORD", "202410")
                 .WithEnvironment("MYSQL_DATABASE", "FIAPContato")
