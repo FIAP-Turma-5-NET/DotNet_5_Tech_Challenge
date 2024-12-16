@@ -20,7 +20,7 @@ namespace FIAP_Contato.Producer.Producers
 
         public async Task EnviarContatoAsync(ContatoMensagem mensagem)
         {  
-            await _producerService.EnviarMensagemAsync(mensagem, _queueName);
+            await _producerService.EnviarMensagemAsync(mensagem, _queueName + "-" + mensagem.TipoDeEvento);
         }
     }
 }

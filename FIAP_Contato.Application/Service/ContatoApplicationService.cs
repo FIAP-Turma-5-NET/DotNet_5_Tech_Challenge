@@ -44,17 +44,38 @@ public class ContatoApplicationService : IContatoApplicationService
 
     public async Task<string> AtualizarContato(int id, ContatoModel request)
     {
-        var req = _mapper.Map<Contato>(request);
-        req.Id = id;
+        var contato = _mapper.Map<Contato>(request);
+        contato.Id = id;
+        _contatoDomainService.TratarContato(contato);
+        var contatoExiste = await _contatoDomainService.VerificarContatoExistentePorId(contato.Id);
 
-        return await _contatoDomainService.AtualizarContato(req);
+        if (!contatoExiste)
+        {
+            throw new InvalidOperationException("Contato não existe para ser alterado!");
+        }
+        var contatoMensagem = _mapper.Map<ContatoMensagem>(contato);
+        contatoMensagem.TipoDeEvento = "Atualizar";
+        await _contatoProducer.EnviarContatoAsync(contatoMensagem);
+
+        return "Contato atualizado com sucesso!";
     }
 
    
 
     public async Task<string> DeletarContato(int id)
     {
-        return await _contatoDomainService.DeletarContato(id);
+        var contato = await _contatoDomainService.ObterDadosContatoPorId(id);
+
+        if (contato == null)
+        {
+            throw new InvalidOperationException("Contato não existe para ser deletado!");
+        }
+        _contatoDomainService.TratarContato(contato);
+        var contatoMensagem = _mapper.Map<ContatoMensagem>(contato);
+        contatoMensagem.TipoDeEvento = "Deletar";
+        await _contatoProducer.EnviarContatoAsync(contatoMensagem);
+
+        return "Contato deletado com sucesso!";
     }
 
     public async Task<IEnumerable<ContatoModelResponse>> ObterTodosContatos(string? ddd)
