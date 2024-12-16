@@ -14,14 +14,14 @@ IHost host = Host.CreateDefaultBuilder(args)
         var configuration = hostContext.Configuration;
 
         // Obtém configurações do appsettings.json
-        var fila = configuration["MassTransit:Filas:ContatoFila"] ?? string.Empty;    
+        var fila = configuration["MassTransit:Filas:ContatoFila"] ?? string.Empty;
         var servidor = configuration["MassTransit:Servidor"] ?? string.Empty;
         var usuario = configuration["MassTransit:Usuario"] ?? string.Empty;
         var senha = configuration["MassTransit:Senha"] ?? string.Empty;
         var connectionString = configuration.GetValue<string>("ConnectionString");
 
         // Registra serviços 
-        services.AddScoped<IConsumerService, ConsumerService>();    
+        services.AddScoped<IConsumerService, ConsumerService>();
         services.AddRegisterCommonServices();
 
         //Configuração para buscar a connection        
@@ -46,7 +46,15 @@ IHost host = Host.CreateDefaultBuilder(args)
                 });
 
                 // Configura o endpoint para consumir mensagens da fila
-                cfg.ReceiveEndpoint(fila, e =>
+                cfg.ReceiveEndpoint(fila + "-Cadastrar", e =>
+                {
+                    e.ConfigureConsumer<ContatoConsumer>(context);
+                });
+                cfg.ReceiveEndpoint(fila + "-Atualizar", e =>
+                {
+                    e.ConfigureConsumer<ContatoConsumer>(context);
+                });
+                cfg.ReceiveEndpoint(fila + "-Deletar", e =>
                 {
                     e.ConfigureConsumer<ContatoConsumer>(context);
                 });
