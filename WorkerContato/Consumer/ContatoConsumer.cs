@@ -1,15 +1,11 @@
 ﻿
 using FIAP_Contato.Consumer.Interface;
-
 using MassTransit;
-
 using Shared.Model;
 
 
 namespace FIAP_Contato.Consumer.Consumer
 {
-
-
     public class ContatoConsumer : IConsumer<ContatoMensagem>
     {
         private readonly IConsumerService _consumerService;
@@ -27,17 +23,14 @@ namespace FIAP_Contato.Consumer.Consumer
                 {
                     case "Cadastrar":
                         await _consumerService.CadastrarContato(context.Message);
-                        break; // Finaliza o caso "Cadastrar".
+                        break; 
                     case "Atualizar":
                         await _consumerService.AtualizarContato(context.Message);
-                        break; // Finaliza o caso "Atualizar".
+                        break; 
                     case "Deletar":
                         await _consumerService.DeletarContato(context.Message);
-                        break; // Finaliza o caso "Deletar".
+                        break; 
                 }
-
-
-
             }
             catch (Exception ex)
             {
@@ -45,5 +38,4 @@ namespace FIAP_Contato.Consumer.Consumer
             }
         }
     }
-
 }

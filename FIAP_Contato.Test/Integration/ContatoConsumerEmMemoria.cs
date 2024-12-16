@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shared.Model;
 
 using Xunit;
+using FIAP_Contato.Domain.Entity;
 
 namespace FIAP_Contato.Test.Integration
 {
@@ -47,7 +48,7 @@ namespace FIAP_Contato.Test.Integration
             {
                 var contatoMensagem = new ContatoMensagem
                 {
-                    Nome = "João Silva",
+                    Nome = "João Silva Santos",
                     Email = "joao.silva@exemplo.com",
                     Telefone = "11988887777",
                     TipoDeEvento = "Cadastrar"
@@ -63,10 +64,10 @@ namespace FIAP_Contato.Test.Integration
 
               
                 var mensagensRecebidas = ContatoConsumerEmMemoria.MensagensRecebidas;
-                Assert.Single(mensagensRecebidas);
+                Assert.Single(mensagensRecebidas);           
 
-                var mensagemRecebida = mensagensRecebidas.First();
-                Assert.Equal("João Silva", mensagemRecebida.Nome);
+                var mensagemRecebida = mensagensRecebidas.FirstOrDefault(c => c.Nome == contatoMensagem.Nome);
+                Assert.Equal("João Silva Santos", mensagemRecebida.Nome);
                 Assert.Equal("joao.silva@exemplo.com", mensagemRecebida.Email);
                 Assert.Equal("11988887777", mensagemRecebida.Telefone);
                 Assert.Equal("Cadastrar", mensagemRecebida.TipoDeEvento);

@@ -10,6 +10,7 @@ using FIAP_Contato.Data.Repository;
 using FIAP_Contato.Domain.Interface.Repository;
 using FIAP_Contato.Application.Mapper;
 using MySqlConnector;
+using FIAP_Contato.Consumer.Consumer;
 
 namespace FIAP_Contato.Test.Integration
 {
@@ -65,6 +66,19 @@ namespace FIAP_Contato.Test.Integration
                     {
                         e.ConfigureConsumer<TestConsumer>(context);
                     });
+                    // Configura o endpoint para consumir mensagens da fila
+                    cfg.ReceiveEndpoint("contato-queue-Cadastrar", e =>
+                    {
+                        e.ConfigureConsumer<TestConsumer>(context);
+                    });
+                    cfg.ReceiveEndpoint("contato-queue-Atualizar", e =>
+                    {
+                        e.ConfigureConsumer<TestConsumer>(context);
+                    });
+                    cfg.ReceiveEndpoint("contato-queue-Deletar", e =>
+                    {
+                        e.ConfigureConsumer<TestConsumer>(context);
+                    });
                 });
             });
 
@@ -96,7 +110,8 @@ namespace FIAP_Contato.Test.Integration
                 Nome = "João Silva",
                 DDD = "11",
                 Telefone = "999999999",
-                Email = "joao.silva@teste.com"
+                Email = "joao.silva@teste.com",
+                TipoDeEvento = "Cadastrar"
             };
 
             await _contatoProducer.EnviarContatoAsync(mensagem);

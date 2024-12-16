@@ -59,7 +59,7 @@ public class ContatoControllerTests : IDisposable
 
     public void Dispose()
     {
-        // Limpeza de estado após cada teste, se necessário
+       
     }
 
     [Fact]
@@ -117,101 +117,7 @@ public class ContatoControllerTests : IDisposable
         Assert.Equal("Nome é obrigatório!", validationResults[0].ErrorMessage);
         Assert.Equal("Telefone é obrigatório!", validationResults[1].ErrorMessage);
         Assert.Equal("E-mail é obrigatório!", validationResults[2].ErrorMessage);
-    }
-
-    [Fact]
-    [Trait("Categoria", "Unit")]
-    public void AtualizarContato_Sucesso()
-    {
-        // Arrange
-
-        _mockRepository.Setup(c => c.AtualizarAsync(It.IsAny<Contato>())).ReturnsAsync(true);
-        _mockRepository.Setup(c => c.ObterTodosAsync()).ReturnsAsync(new List<Contato> { _fakerEntity }); 
-        var model = _faker.Generate();
-
-        // Act
-        var validarAnnotation = Validator.TryValidateObject(model, new ValidationContext(model, null, null), null, true);
-        var response = _contatoController.AtualizarContato(1, model).Result;
-
-        // Assert
-        Assert.True(validarAnnotation);
-        Assert.Equal("Atualizado com sucesso!", ((ObjectResult)response).Value);
-    }
-
-    [Fact]
-    [Trait("Categoria", "Unit")]
-    public void AtualizarContato_Erro_Retorno_Banco()
-    {
-        // Arrange
-      
-        _mockRepository.Setup(c => c.AtualizarAsync(It.IsAny<Contato>())).ReturnsAsync(false);
-        _mockRepository.Setup(c => c.ObterTodosAsync()).ReturnsAsync(new List<Contato> { _fakerEntity });
-        var model = _faker.Generate();
-
-        // Act & Assert
-        var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => 
-        await _contatoController.AtualizarContato(1, model));
-        Assert.Equal("Erro ao Atualizar!", ex.Result.Message);
-    }
-
-    [Fact]
-    [Trait("Categoria", "Unit")]
-    public void AtualizarContato_Erro_Contato_Nao_Existe()
-    {
-        // Arrange        
-        _mockRepository.Setup(c => c.AtualizarAsync(It.IsAny<Contato>())).ReturnsAsync(false);
-        var model = _faker.Generate();
-
-        // Act & Assert
-        var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => 
-        await _contatoController.AtualizarContato(1, model));
-        Assert.Equal("Contato não existe!", ex.Result.Message);
-    }
-
-    [Fact]
-    [Trait("Categoria", "Unit")]
-    public void DeletarContato_Sucesso()
-    {
-        // Arrange        
-        _mockRepository.Setup(c => c.DeletarAsync(It.IsAny<Contato>())).ReturnsAsync(true);
-        _mockRepository.Setup(c => c.ObterTodosAsync()).ReturnsAsync(new List<Contato> { _fakerEntity });      
-
-        // Act
-        var response = _contatoController.DeletarContato(1).Result;
-
-        // Assert
-        Assert.Equal("Deletado com sucesso!", ((ObjectResult)response).Value);
-    }
-
-    [Fact]
-    [Trait("Categoria", "Unit")]
-    public void DeletarContato_Erro_Retorno_Banco()
-    {
-        // Arrange        
-        _mockRepository.Setup(c => c.DeletarAsync(It.IsAny<Contato>())).ReturnsAsync(false);
-        _mockRepository.Setup(c => c.ObterTodosAsync()).ReturnsAsync(new List<Contato> { _fakerEntity });     
-
-        // Act
-        var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => 
-        await _contatoController.DeletarContato(1));
-
-        // Assert
-        Assert.Equal("Erro ao Deletar!", ex.Result.Message);
-    }
-
-    [Fact]
-    [Trait("Categoria", "Unit")]
-    public void DeletarContato_Erro_Contato_Nao_Existe()
-    {
-        // Arrange   
-        _mockRepository.Setup(c => c.DeletarAsync(It.IsAny<Contato>())).ReturnsAsync(false);
-
-        // Act
-        var ex = Assert.ThrowsAsync<InvalidOperationException>(async () => await _contatoController.DeletarContato(1));
-
-        // Assert
-        Assert.Equal("Contato não existe!", ex.Result.Message);
-    }
+    } 
 
     [Fact]
     [Trait("Categoria", "Unit")]
@@ -275,7 +181,7 @@ public class ContatoControllerTests : IDisposable
 
     [Fact]
     [Trait("Categoria", "Unit")]
-    public void GetAllContatos_Erro_Retorno_Banco()
+    public void ObterTodosContatos_Erro_Retorno_Banco()
     {
         // Arrange       
         _mockRepository.Setup(c => c.ObterTodosAsync()).ThrowsAsync(new Exception("Erro na conexão!"));

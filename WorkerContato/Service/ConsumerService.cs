@@ -19,7 +19,6 @@ namespace FIAP_Contato.Consumer.Service
             _mapper = mapper;
         }
 
-
         public async Task<string> CadastrarContato(ContatoMensagem request)
         {
             var response = string.Empty;

@@ -58,9 +58,7 @@ public class ContatoApplicationService : IContatoApplicationService
         await _contatoProducer.EnviarContatoAsync(contatoMensagem);
 
         return "Contato atualizado com sucesso!";
-    }
-
-   
+    }   
 
     public async Task<string> DeletarContato(int id)
     {

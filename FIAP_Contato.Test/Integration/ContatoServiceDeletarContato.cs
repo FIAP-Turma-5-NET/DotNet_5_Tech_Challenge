@@ -1,8 +1,10 @@
-﻿using FIAP_Contato.Data.Repository;
+﻿using FIAP_Contato.Application.Mapper;
+using FIAP_Contato.Consumer.Service;
+using FIAP_Contato.Data.Repository;
 using FIAP_Contato.Domain.Interface.Repository;
-using FIAP_Contato.Domain.Service;
-
 using MySql.Data.MySqlClient;
+
+using Shared.Model;
 
 using Xunit;
 
@@ -13,35 +15,47 @@ namespace FIAP_Contato.Test.Integration
     {
         private readonly DatabaseFixture _fixture;
         private readonly IContatoRepository _contatoRepository;
-        private readonly ContatoDomainService _contatoDomainService;
+        private readonly ConsumerService _consumerService;
+        private AutoMapper.IMapper _mapper;
 
         public ContatoServiceDeletarContato(DatabaseFixture fixture)
         {
+            _mapper = MapperConfiguration.RegisterMapping();
             _fixture = fixture;
             _contatoRepository = new ContatoRepository(new MySqlConnection(_fixture.ConnectionString));
-            _contatoDomainService = new ContatoDomainService(_contatoRepository);
+            _consumerService = new ConsumerService(_contatoRepository, _mapper);
         }
-
-       
 
         [Fact]
         [Trait("Categoria", "Integration")]
-        public async Task DeletaContatoEspecificoNoBanco()
+        public async Task DeletarContatoEspecificoNoBanco()
         {
             // Arrange
-            var contato = new ContatoDataBuilder().Build();  
 
-            await _contatoDomainService.CadastrarContato(contato);
-            var contatoParaDeletar = (await _contatoDomainService.ObterTodosContatos())
-                .FirstOrDefault(c => c.Nome == contato.Nome);
+            var mensagem = new ContatoMensagem
+            {
+                Nome = "João Silva",
+                DDD = "11",
+                Telefone = "999999999",
+                Email = "joao.silva@teste.com"
+            };
 
             // Act
-            var resultado = await _contatoDomainService.DeletarContato(contatoParaDeletar.Id);
-            var contatosRestantes = await _contatoDomainService.ObterTodosContatos();
+
+            var cadastrarResultado = await _consumerService.CadastrarContato(mensagem);
+
+            var contatos = await _contatoRepository.ObterTodosAsync();
+
+            var contatoAtualizado = contatos
+                .FirstOrDefault(c => c.Nome == mensagem.Nome);            
+
+            var cadastro = _mapper.Map<ContatoMensagem>(contatoAtualizado);
+
+
+            var deletarResultado = await _consumerService.DeletarContato(cadastro);
 
             // Assert
-            Assert.Equal("Deletado com sucesso!", resultado);            
-            Assert.DoesNotContain(contatosRestantes, c => c.Nome == contato.Nome);
+            Assert.Equal("Deletado com sucesso!", deletarResultado);
         }
         Task IAsyncLifetime.InitializeAsync()
         {

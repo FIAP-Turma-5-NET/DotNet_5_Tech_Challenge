@@ -1,6 +1,4 @@
-﻿using FIAP_Contato.Domain.Entity;
-
-using Shared.Model;
+﻿using Shared.Model;
 
 namespace FIAP_Contato.Consumer.Interface
 {
