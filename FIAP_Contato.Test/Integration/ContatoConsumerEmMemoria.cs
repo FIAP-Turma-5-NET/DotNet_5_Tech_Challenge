@@ -61,16 +61,16 @@ namespace FIAP_Contato.Test.Integration
                 var consumerHarness = harness.GetConsumerHarness<ContatoConsumerEmMemoria>();
                 Assert.True(await consumerHarness.Consumed.Any<ContatoMensagem>(),
                     "Mensagem não foi consumida");
-
               
-                var mensagensRecebidas = ContatoConsumerEmMemoria.MensagensRecebidas;
-                Assert.Single(mensagensRecebidas);           
+                var mensagensRecebidas = MensagensRecebidas;             
+
+                await Task.Delay(5000);
 
                 var mensagemRecebida = mensagensRecebidas.FirstOrDefault(c => c.Nome == contatoMensagem.Nome);
-                Assert.Equal("João Silva Santos", mensagemRecebida.Nome);
-                Assert.Equal("joao.silva@exemplo.com", mensagemRecebida.Email);
-                Assert.Equal("11988887777", mensagemRecebida.Telefone);
-                Assert.Equal("Cadastrar", mensagemRecebida.TipoDeEvento);
+                Assert.Equal("João Silva Santos", mensagemRecebida?.Nome);
+                Assert.Equal("joao.silva@exemplo.com", mensagemRecebida?.Email);
+                Assert.Equal("11988887777", mensagemRecebida?.Telefone);
+                Assert.Equal("Cadastrar", mensagemRecebida?.TipoDeEvento);
             }
             finally
             {

@@ -10,12 +10,9 @@ using FIAP_Contato.Data.Repository;
 using FIAP_Contato.Domain.Interface.Repository;
 using FIAP_Contato.Application.Mapper;
 using MySqlConnector;
-using FIAP_Contato.Consumer.Consumer;
 
 namespace FIAP_Contato.Test.Integration
 {
-
-
     [Collection(nameof(InfrastructureCollection))]
     public class ContatoCadastrarEndToEnd : IAsyncLifetime
     {
@@ -61,24 +58,11 @@ namespace FIAP_Contato.Test.Integration
                         h.Username("admin");
                         h.Password("password");
                     });
-
-                    cfg.ReceiveEndpoint("contato-queue", e =>
-                    {
-                        e.ConfigureConsumer<TestConsumer>(context);
-                    });
-                    // Configura o endpoint para consumir mensagens da fila
+                   
                     cfg.ReceiveEndpoint("contato-queue-Cadastrar", e =>
                     {
                         e.ConfigureConsumer<TestConsumer>(context);
-                    });
-                    cfg.ReceiveEndpoint("contato-queue-Atualizar", e =>
-                    {
-                        e.ConfigureConsumer<TestConsumer>(context);
-                    });
-                    cfg.ReceiveEndpoint("contato-queue-Deletar", e =>
-                    {
-                        e.ConfigureConsumer<TestConsumer>(context);
-                    });
+                    });                   
                 });
             });
 
