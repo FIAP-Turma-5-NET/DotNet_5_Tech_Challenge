@@ -19,7 +19,6 @@ services:
     restart: always
     ports:
       - 9090:9090
-    
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
@@ -67,6 +66,21 @@ services:
       timeout: 3s
       retries: 10
       start_period: 10s
+    networks:
+      - default
+
+  rabbitmq:
+    image: masstransit/rabbitmq
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "15672:15672" 
+      - "5672:5672"  
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - default
 
