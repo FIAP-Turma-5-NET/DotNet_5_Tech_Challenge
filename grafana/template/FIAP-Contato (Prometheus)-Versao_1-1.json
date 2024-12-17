@@ -384,7 +384,9 @@
         "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -457,7 +459,9 @@
         "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -473,7 +477,7 @@
             "uid": "be0edkhkn99mof"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, rate(mysqlconnector_db_client_connections_wait_time_bucket[5m]))",
+          "expr": "histogram_quantile(0.95, rate(mysqlconnector_db_client_connections_use_time_bucket{pool_name=\"Server=host.docker.internal;Port=3360;User ID=root;Database=FIAPContato\"}[5m]))",
           "format": "table",
           "instant": false,
           "legendFormat": "{{database}}",
@@ -510,7 +514,7 @@
     ]
   },
   "timezone": "America/Sao_Paulo",
-  "title": "FIAP-Contato (Prometheus)",
+  "title": "FIAP-Contato (Prometheus) 2",
   "uid": "h1FE3PpWk",
   "version": 23,
   "weekStart": ""
