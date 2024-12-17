@@ -32,6 +32,7 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
+//MassTransit - RabbitMQ
 var servidor = configuration["MassTransit:Servidor"] ?? string.Empty;
 var usuario = configuration["MassTransit:Usuario"] ?? string.Empty;
 var senha = configuration["MassTransit:Senha"] ?? string.Empty;
