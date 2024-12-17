@@ -1,5 +1,27 @@
 services:
-
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: fiap_contato-api
+    ports:
+      - "7109:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - default
+  consumer:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: fiap_contato-consumer
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    command: ["dotnet", "./console/FIAP_Contato.Consumer.dll"]
+    depends_on:
+      - rabbitmq
+    networks:
+      - default
   mysql:
     image: mysql:8.0.32
     container_name: mysql-fiap-contato
@@ -19,6 +41,8 @@ services:
     restart: always
     ports:
       - 9090:9090
+    depends_on:
+      - api
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
