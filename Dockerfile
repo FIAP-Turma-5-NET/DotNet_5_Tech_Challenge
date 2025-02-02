@@ -3,15 +3,23 @@ WORKDIR /app
 
 COPY . ./
 
-RUN dotnet publish "./FIAP_Contato.API" -c Release -o out
+RUN dotnet publish "./FIAP_Contato.API" -c Release -o /app/out/api
+RUN dotnet publish "./WorkerContato/FIAP_Contato.Consumer.csproj" -c Release -o /app/out/console
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /app
-COPY --from=build-env /app/out .
 
-ENV ASPNETCORE_ENVIRONMENT="Development"
+# Instalar o Supervisor
+RUN apt-get update && apt-get install -y supervisor
+
+WORKDIR /app
+
+COPY --from=build-env /app/out/api ./
+COPY --from=build-env /app/out/console ./console
+
+COPY supervisord.conf /etc/supervisor/supervisord.conf
 
 EXPOSE 8080
 EXPOSE 443
 
-ENTRYPOINT ["dotnet", "FIAP_Contato.API.dll"]
+# Comando para iniciar o Supervisor que gerencia a API e o Console
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

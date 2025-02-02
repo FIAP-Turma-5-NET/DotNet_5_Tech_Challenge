@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FIAP_Contato.Domain\FIAP_Contato.Domain.csproj" />
+    <ProjectReference Include="..\FIAP_Contato.Domain\FIAP_Contato.Domain.csproj" />    
+    <ProjectReference Include="..\FIAP_Contato.Producer\FIAP_Contato.Producer.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

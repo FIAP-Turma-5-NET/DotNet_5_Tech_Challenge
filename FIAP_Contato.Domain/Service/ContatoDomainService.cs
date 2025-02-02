@@ -32,6 +32,31 @@ public class ContatoDomainService : IContatoDomainService
         return response;
     }
 
+    public async Task<bool> VerificarContatoExistentePorId(int id)
+    {
+        var entity = (await _contatoRepository.ObterTodosAsync()).FirstOrDefault(c => c.Id.Equals(id));
+        return entity != null;
+    }
+
+    public async Task<Contato> ObterDadosContatoPorId(int id)
+    {
+        var entity = (await _contatoRepository.ObterTodosAsync()).FirstOrDefault(c => c.Id.Equals(id));
+        return entity;
+    }
+
+    public async Task<bool> VerificarContatoExistente(Contato contato)
+    {
+        var entity = (await _contatoRepository.ObterTodosAsync())
+            .FirstOrDefault(c => c.Nome.Equals(contato.Nome, StringComparison.CurrentCultureIgnoreCase)
+                                 && c.Email.Equals(contato.Email));
+        return entity != null;
+    }
+
+    public void TratarContato(Contato contato)
+    {
+        contato.TratarTelefone(contato.Telefone);
+    }
+
     public async Task<string> CadastrarContato(Contato request)
     {
         var response = string.Empty;
