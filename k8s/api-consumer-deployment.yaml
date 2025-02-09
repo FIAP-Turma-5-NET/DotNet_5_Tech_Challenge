@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-contato-consumer
+  labels:
+    app: fiap-contato-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-contato-consumer
+  template:
+    metadata:
+      labels:
+        app: fiap-contato-consumer
+    spec:
+      containers:
+      - name: fiap-contato-consumer
+        image: rodrigos1910/fiap-contato-consumer:latest
+        imagePullPolicy: Always
+        command: ["dotnet", "FIAP_Contato.Consumer.dll"]  # Inicia o Worker corretamente
+        envFrom:
+        - configMapRef:
+            name: api-config

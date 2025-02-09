@@ -8,10 +8,12 @@ namespace FIAP_Contato.API.Controllers;
 [ApiController]
 public class ContatoController : ControllerBase
 {
-    private IContatoApplicationService _contatoApplicationService;
+    private IContatoApplicationService _contatoApplicationService; 
 
-    public ContatoController(IContatoApplicationService contatoApplicationService) => _contatoApplicationService = contatoApplicationService;
-
+    public ContatoController(IContatoApplicationService contatoApplicationService )
+    {
+        _contatoApplicationService = contatoApplicationService; 
+    }
     /// <summary>
     /// Cadastrar um contato
     /// </summary>
@@ -23,8 +25,15 @@ public class ContatoController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CadastrarContato(ContatoModel request)
     {
-        var response = await _contatoApplicationService.CadastrarContato(request);
-        return Ok(response);
+        try
+        {
+            var response = await _contatoApplicationService.CadastrarContato(request);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Erro interno no servidor", exception = ex.Message, stackTrace = ex.StackTrace });
+        }
     }
 
     /// <summary>
@@ -39,8 +48,15 @@ public class ContatoController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> AtualizarContato(int id, ContatoModel request)
     {
-        var response = await _contatoApplicationService.AtualizarContato(id, request);
-        return Ok(response);
+        try
+        {
+            var response = await _contatoApplicationService.AtualizarContato(id, request);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Erro interno no servidor", exception = ex.Message, stackTrace = ex.StackTrace });
+        }
     }
 
     /// <summary>
@@ -55,9 +71,21 @@ public class ContatoController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> ObterTodosContatos(string? ddd)
     {
-        var response = await _contatoApplicationService.ObterTodosContatos(ddd);
-
-        return response.Any() ? Ok(response) : NotFound();
+        try
+        {
+            var response = await _contatoApplicationService.ObterTodosContatos(ddd);
+            return response.Any() ? Ok(response) : NotFound();
+        }
+        catch (Exception ex)
+        { 
+            
+            return StatusCode(500, new
+            {
+                message = "Erro interno no servidor",
+                exception = ex.Message,
+                stackTrace = ex.StackTrace
+            });
+        }
     }
 
     /// <summary>
@@ -70,7 +98,14 @@ public class ContatoController : ControllerBase
     [HttpDelete("id")]
     public async Task<IActionResult> DeletarContato(int id)
     {
-        var response = await _contatoApplicationService.DeletarContato(id);
-        return Ok(response);
+        try
+        {
+            var response = await _contatoApplicationService.DeletarContato(id);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Erro interno no servidor", exception = ex.Message, stackTrace = ex.StackTrace });
+        }
     }
 }

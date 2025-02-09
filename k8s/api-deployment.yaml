@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-contato-api
+  labels:
+    app: fiap-contato-api
+  annotations:
+    description: "API de contatos"
+    owner: "Rodrigo"
+    version: "1.0.0"
+spec:
+  replicas: 2  # Número de instâncias da API rodando ao mesmo tempo
+  selector:
+    matchLabels:
+      app: fiap-contato-api
+  template:
+    metadata:
+      labels:
+        app: fiap-contato-api
+    spec:
+      containers:
+      - name: fiap-contato-api
+        image: rodrigos1910/fiap-contato-api:latest
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: api-config
+        ports:
+        - containerPort: 7109

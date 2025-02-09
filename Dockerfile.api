@@ -1,0 +1,25 @@
+# Etapa de Build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+WORKDIR /app
+
+# Copia todo o código para dentro do container
+COPY . ./
+
+# Publica o projeto API
+RUN dotnet publish "./FIAP_Contato.API" -c Release -o /app/out
+
+# Imagem Final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+
+# Copia os binários da API
+COPY --from=build-env /app/out ./
+
+# Define a porta correta
+ENV ASPNETCORE_URLS="http://+:7109"
+
+# Expõe a porta
+EXPOSE 7109
+
+# Comando para rodar a API
+CMD ["dotnet", "FIAP_Contato.API.dll"]

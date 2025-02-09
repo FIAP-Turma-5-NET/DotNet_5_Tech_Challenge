@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-fiap-contato  
+  annotations:
+    description: "MySQL"
+    owner: "Rodrigo"
+    version: "1.0.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-fiap-contato
+  template:
+    metadata:
+      labels:
+        app: mysql-fiap-contato
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "202406"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql  # Diretório onde os dados são armazenados
+        - name: mysql-init-script
+          mountPath: /docker-entrypoint-initdb.d  # Diretório para rodar os scripts SQL na inicialização
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc  # PVC para armazenamento persistente do MySQL
+      - name: mysql-init-script
+        configMap:
+          name: mysql-init-script  # ConfigMap que contém o script de inicialização

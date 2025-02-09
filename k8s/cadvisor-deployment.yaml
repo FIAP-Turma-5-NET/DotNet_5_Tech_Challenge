@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cadvisor
+  labels:
+    app: cadvisor
+  annotations:
+    description: "Cadvisor"
+    owner: "Rodrigo"
+    version: "1.0.0"
+spec:
+  replicas: 1
+  selector:
+
+    matchLabels:
+      app: cadvisor
+  template:
+    metadata:
+      labels:
+        app: cadvisor
+    spec:
+      containers:
+      - name: cadvisor
+        image: google/cadvisor:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+        - name: sys
+          mountPath: /sys
+        - name: var-lib-docker
+          mountPath: /var/lib/docker
+      volumes:
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+      - name: sys
+        hostPath:
+          path: /sys
+      - name: var-lib-docker
+        hostPath:
+          path: /var/lib/docker

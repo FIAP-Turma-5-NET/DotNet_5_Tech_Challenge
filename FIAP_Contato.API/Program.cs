@@ -13,7 +13,7 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-
+builder.WebHost.UseUrls("http://*:7109");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(s => {
     s.SwaggerDoc("v1", new OpenApiInfo
@@ -52,7 +52,7 @@ builder.Services.AddMassTransit(x =>
 });
 
 //Configuração para buscar a connection
-var connectionString = configuration.GetValue<string>("ConnectionString");
+var connectionString = configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddScoped<IDbConnection>((connection) => new MySqlConnection(connectionString));
 
 // Configuration IoC

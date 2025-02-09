@@ -1,0 +1,19 @@
+# Etapa de Build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+WORKDIR /app
+
+# Copia todo o código para dentro do container
+COPY . ./
+
+# Publica o projeto Consumer
+RUN dotnet publish "./WorkerContato/FIAP_Contato.Consumer.csproj" -c Release -o /app/out
+
+# Imagem Final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+
+# Copia os binários do Consumer
+COPY --from=build-env /app/out ./
+
+# Comando para rodar o Consumer
+CMD ["dotnet", "FIAP_Contato.Consumer.dll"]

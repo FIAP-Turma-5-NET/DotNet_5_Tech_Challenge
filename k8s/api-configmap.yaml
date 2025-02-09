@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+data:
+  ConnectionStrings__DefaultConnection: "Server=mysql-service;Database=FIAPContato;User=root;Password=202406;Connection Timeout=60;"
+  ASPNETCORE_ENVIRONMENT: "Development"
+  RABBITMQ_HOST: "rabbitmq-service"
+  RABBITMQ_USER: "guest"
+  RABBITMQ_PASSWORD: "guest"
