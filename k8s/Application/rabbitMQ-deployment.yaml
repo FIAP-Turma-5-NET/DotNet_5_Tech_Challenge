@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-contato-rabbitmq-deployment
+  namespace: fiap-contato
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-contato-rabbitmq-deployment
+  template:
+    metadata:
+      labels:
+        app: fiap-contato-rabbitmq-deployment
+    spec:
+      containers:
+      - name: fiap-contato-rabbitmq-deployment
+        image: masstransit/rabbitmq
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

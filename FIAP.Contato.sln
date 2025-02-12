@@ -9,27 +9,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-Domain", "03-Domain", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-UserInterface", "01-UserInterface", "{0CC470B7-AA45-4E4F-BCF9-29C729F9FE16}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.Data", "FIAP_Contato.Data\FIAP_Contato.Data.csproj", "{618F9A35-8FC9-42FD-AF37-3C61C3B9E40A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.Data", "src\FIAP_Contato.Data\FIAP_Contato.Data.csproj", "{618F9A35-8FC9-42FD-AF37-3C61C3B9E40A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.Domain", "FIAP_Contato.Domain\FIAP_Contato.Domain.csproj", "{7D6C39FC-C5A3-438A-8D47-9D5BE05744F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.Domain", "src\FIAP_Contato.Domain\FIAP_Contato.Domain.csproj", "{7D6C39FC-C5A3-438A-8D47-9D5BE05744F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.Application", "FIAP_Contato.Application\FIAP_Contato.Application.csproj", "{80E052DB-F13D-4025-87F4-D495788CFB62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.Application", "src\FIAP_Contato.Application\FIAP_Contato.Application.csproj", "{80E052DB-F13D-4025-87F4-D495788CFB62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.API", "FIAP_Contato.API\FIAP_Contato.API.csproj", "{E2776A1D-1383-4733-9D9B-23DB192363E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.API", "src\FIAP_Contato.API\FIAP_Contato.API.csproj", "{E2776A1D-1383-4733-9D9B-23DB192363E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{36B8745C-AE54-4F8D-BE3D-9AAA447110FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.CrossCutting", "FIAP_Contato.CrossCutting\FIAP_Contato.CrossCutting.csproj", "{ACC57102-2D9B-43C5-8F14-488E885347C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP_Contato.CrossCutting", "src\FIAP_Contato.CrossCutting\FIAP_Contato.CrossCutting.csproj", "{ACC57102-2D9B-43C5-8F14-488E885347C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP_Contato.Test", "FIAP_Contato.Test\FIAP_Contato.Test.csproj", "{C847E3C3-C876-4A74-9A81-42C79F3A1111}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP_Contato.Test", "src\FIAP_Contato.Test\FIAP_Contato.Test.csproj", "{C847E3C3-C876-4A74-9A81-42C79F3A1111}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP_Contato.Consumer", "WorkerContato\FIAP_Contato.Consumer.csproj", "{C90B9165-0B73-4BA2-A01D-E5C6A8D14323}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP_Contato.Consumer", "src\WorkerContato\FIAP_Contato.Consumer.csproj", "{C90B9165-0B73-4BA2-A01D-E5C6A8D14323}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04-Infrastructure", "04-Infrastructure", "{5E352BE7-E7AC-4356-BBD5-9745F1574EFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP_Contato.Producer", "FIAP_Contato.Producer\FIAP_Contato.Producer.csproj", "{C159D592-5122-42CD-8E69-3E23D79FA032}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP_Contato.Producer", "src\FIAP_Contato.Producer\FIAP_Contato.Producer.csproj", "{C159D592-5122-42CD-8E69-3E23D79FA032}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{DB2046AF-5F11-4435-A707-8EC83E308468}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{DB2046AF-5F11-4435-A707-8EC83E308468}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

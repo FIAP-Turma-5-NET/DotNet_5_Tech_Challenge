@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: fiap-contato
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana:11.2.0
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+        env:
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          value: 'admin'
+        volumeMounts:
+        - name: grafana-config
+          mountPath: /etc/grafana/provisioning/datasources/prometheus.yml
+          subPath: prometheus.yml
+      volumes:
+      - name: grafana-config
+        configMap:
+          name: grafana-config

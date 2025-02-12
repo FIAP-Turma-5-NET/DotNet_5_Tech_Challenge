@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+  namespace: fiap-contato
+data:
+  prometheus.yml: |
+    apiVersion: 1
+    datasources:
+      - name: prometheus
+        type: prometheus
+        url: http://prometheus.fiap-contato.svc.cluster.local:9090
+        isDefault: true
+        jsonData:
+          timeInterval: "5s"

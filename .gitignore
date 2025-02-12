@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# grafana/data and grafana/provisioning folder
+grafana/data
+grafana/provisioning
