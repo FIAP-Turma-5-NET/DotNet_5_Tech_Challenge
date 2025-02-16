@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: fiap-contato
+  labels:
+    app: prometheus
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+
+    scrape_configs:
+      # Configuração do Prometheus para monitorar ele mesmo
+      - job_name: 'prometheus'
+        static_configs:
+          - targets: ['localhost:9090']
+      
+      # Configuração do Prometheus para monitorar a aplicação .NET
+      - job_name: 'dotnet'
+        static_configs:
+          - targets: ['fiap-contato-api-service.fiap-contato.svc.cluster.local:8080']  # Porta da sua aplicação .NET
+        metrics_path: /metrics  # Rota para métricas do .NET

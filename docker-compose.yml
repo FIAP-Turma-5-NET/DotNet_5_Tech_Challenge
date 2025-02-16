@@ -8,10 +8,39 @@ services:
       - "7109:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - Connection_String=Server=mysql;port=3306;database=FIAPContato;uid=root;pwd=202406
+      - MassTransit_Servidor=host.docker.internal
+      - MassTransit_Usuario=guest
+      - MassTransit_Senha=guest
+      - MassTransit_Filas_ContatoFila=contato-queue
     depends_on:
-      - rabbitmq
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - default
+
+  worker:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: fiap_contato-worker
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - Connection_String=Server=mysql;port=3306;database=FIAPContato;uid=root;pwd=202406
+      - MassTransit_Servidor=host.docker.internal
+      - MassTransit_Usuario=guest
+      - MassTransit_Senha=guest
+      - MassTransit_Filas_ContatoFila=contato-queue
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - default
+
   mysql:
     image: mysql:8.0.32
     container_name: mysql-fiap-contato
@@ -20,17 +49,23 @@ services:
     ports:
       - "3360:3306"
     volumes:
-      - ./FIAP_Contato.Data/Scripts:/docker-entrypoint-initdb.d
+      - ./src/FIAP_Contato.Data/Scripts:/docker-entrypoint-initdb.d
     restart: always
     networks:
       - default
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   prometheus:
     image: prom/prometheus
     container_name: prometheus
     restart: always
     ports:
-      - 9090:9090
+      - "9090:9090"
     depends_on:
       - api
     volumes:
@@ -67,9 +102,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
-      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
-      - ./grafana/data:/var/lib/grafana
+      - ./src/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./src/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./src/grafana/data:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
@@ -88,8 +123,8 @@ services:
     container_name: rabbitmq
     restart: always
     ports:
-      - "15672:15672" 
-      - "5672:5672"  
+      - "15672:15672"
+      - "5672:5672"
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "ping"]
       interval: 10s

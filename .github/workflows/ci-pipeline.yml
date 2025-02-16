@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feature/fase04-kubernetes" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "feature/fase04-kubernetes" ]
   workflow_dispatch:
 
 jobs:

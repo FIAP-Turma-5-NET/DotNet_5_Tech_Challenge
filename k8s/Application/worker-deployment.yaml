@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-contato-worker
+  namespace: fiap-contato
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fiap-contato-worker
+  template:
+    metadata:
+      labels:
+        app: fiap-contato-worker
+    spec:
+      containers:
+      - name: fiap-contato-worker
+        image: fiap/fiap_contato_worker:1.0.0
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+        - name: DOTNET_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: fiap-contato-config
+              key: DOTNET_ENVIRONMENT
+        # MySQL
+        - name: CONNECTION_MYSQL
+          valueFrom:
+            configMapKeyRef:
+              name: fiap-contato-config
+              key: Connection_String
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: fiap-contato-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: fiap-contato-secret
+              key: MYSQL_PASSWORD
+        - name: Connection_String
+          value: "$(CONNECTION_MYSQL)uid=$(MYSQL_USER);pwd=$(MYSQL_PASSWORD)"
+        # RabbitMQ
+        - name: MassTransit_Servidor
+          valueFrom:
+            configMapKeyRef:
+              name: fiap-contato-config
+              key: MassTransit_Servidor
+        - name: MassTransit_Usuario
+          valueFrom:
+            configMapKeyRef:
+              name: fiap-contato-config
+              key: MassTransit_Usuario
+        - name: MassTransit_Senha
+          valueFrom:
+            configMapKeyRef:
+              name: fiap-contato-config
+              key: MassTransit_Senha
+        - name: MassTransit_Filas_ContatoFila
+          valueFrom:
+            configMapKeyRef:
+              name: fiap-contato-config
+              key: MassTransit_Filas_ContatoFila

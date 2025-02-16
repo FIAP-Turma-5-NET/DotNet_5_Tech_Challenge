@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: fiap-contato-mysql-statefulset
+  namespace: fiap-contato
+spec:
+  serviceName: "mysql"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-contato-mysql-statefulset
+  template:
+    metadata:
+      labels:
+        app: fiap-contato-mysql-statefulset
+    spec:
+      containers:
+      - name: fiap-contato-mysql-statefulset
+        image: mysql:8.0.32
+        args: [ "--default-authentication-plugin=mysql_native_password", "--mysqlx=0" ]
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: fiap-contato-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          value: FIAPContato
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 500m
+            memory: 400Mi
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: fiap-contato-data
+          mountPath: /var/lib/mysql
+        - name: config-volume
+          mountPath: /etc/mysql/conf.d
+        - name: init-scripts
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: config-volume
+        configMap:
+          name: fiap-contato-config
+      - name: init-scripts
+        configMap:
+          name: fiap-contato-config
+          items:
+          - key: init-scripts
+            path: init.sql
+  volumeClaimTemplates:
+  - metadata:
+      name: fiap-contato-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
