@@ -76,6 +76,8 @@ Password: 202406
 
 # Projeto no Kubernetes (Windows)
 
+⚠️ Instalar Minikube: https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download
+
 ⚠️Abra :
 
 👉 Abra o Docker desktop e o Visual Code com o código-font.
@@ -104,7 +106,7 @@ minikube dashboard
 
 ⚠️ Após terminar de subir as imagens
 
-- Em um novo terminar Git Bash entre no caminho que está o K8S.
+- Em um novo terminal Git Bash entre no caminho que está o K8S.
 
 ```console
 cd  k8s
